@@ -1,0 +1,96 @@
+package com.example.android.justjava;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import java.text.NumberFormat;
+
+/**
+ * This app displays an order form to order coffee.
+ */
+public class MainActivity extends ActionBarActivity {
+
+    int quantity = 2;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * This method is called when the order button is clicked.
+     */
+    public void submitOrder(View view) {
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+        Log.v("Main Activity", "has chocolate?" + hasChocolate);
+
+        int price = calculatePrice();
+       String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate);
+        displayMessage(priceMessage);
+    }
+
+    /**
+     * This method displays the given quantity value on the screen.
+     */
+    private void display(int number) {
+        TextView quantityTextView = (TextView) findViewById(
+                R.id.quantity_text_view);
+        quantityTextView.setText("" + number);
+    }
+
+    /**
+     * This method displays the given text on the screen.
+     */
+    private void displayMessage(String message) {
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
+    }
+
+    /**
+     * This method is called when the increment button is clicked.
+     */
+    public void increment(View view) {
+        quantity = quantity + 1;
+        display(quantity);
+            }
+
+    /**
+     * This method is called when the decrement button is clicked.
+     */
+    public void decrement(View view) {
+        quantity = quantity - 1;
+        display(quantity);
+            }
+
+
+    /**
+     * This method is calculates the order price
+     */
+
+    private int calculatePrice () {
+        return quantity * 5;
+    }
+
+    /**
+     * This method prints an order summary
+     * @param Price inserts the price into the order summary
+     * @param addWhippedCream is a boolean that shows whether the whipped cream check box was selected
+     * @param addChocolate is a boolean that shows whether the chocolate check box was selected
+     */
+
+    private String createOrderSummary (int Price, boolean addWhippedCream, boolean addChocolate) {
+        return "\n Name: " + "Richard Hurley" + "\n has whipped cream? " + addWhippedCream + "\n has chocolate? " + addChocolate + "\n Quantity: " + quantity + "\n Total: $" + Price + "\n Thank You!";
+
+    }
+
+}
